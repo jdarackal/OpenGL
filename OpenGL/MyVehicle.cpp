@@ -33,7 +33,7 @@ void myVehicle::draw() {
     setColor(0, 0, 1);
     setColorInGL();
 
-    // Wheels
+    // Front Left Wheel
 
     glPushMatrix();
 
@@ -44,6 +44,8 @@ void myVehicle::draw() {
 
     glPopMatrix();
 
+    // Front Right Wheel
+
     glPushMatrix();
 
     glTranslated(-1.55, 0, 1.25);
@@ -53,6 +55,8 @@ void myVehicle::draw() {
 
     glPopMatrix();
 
+    // Back Left Wheel
+
     glPushMatrix();
 
     glTranslated(1.55, 0, -1.25);
@@ -61,6 +65,8 @@ void myVehicle::draw() {
     backLeft.draw();
 
     glPopMatrix();
+
+    // Back Right Wheel
 
     glPushMatrix();
 
