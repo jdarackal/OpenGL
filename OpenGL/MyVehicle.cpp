@@ -10,8 +10,13 @@
 myVehicle::myVehicle() : Vehicle() {}
 
 void myVehicle::draw() {
-    
+
     glPushMatrix();
+    glRotated(-90, 0, 1, 0);
+
+    glPushMatrix();
+    positionInGL();
+    glRotated(90, 0, 1, 0);
 
     // Body
 
@@ -25,7 +30,7 @@ void myVehicle::draw() {
     top.draw();
 
 
-    setColor(1, 0, 0);
+    setColor(0, 0, 1);
     setColorInGL();
 
     // Wheels
@@ -47,7 +52,7 @@ void myVehicle::draw() {
     frontRight.draw();
 
     glPopMatrix();
-        
+
     glPushMatrix();
 
     glTranslated(1.55, 0, -1.25);
@@ -63,6 +68,8 @@ void myVehicle::draw() {
 
     cylinder backRight(0, 0, 0, 90, 0.75, 0.1);
     backRight.draw();
+
+    glPopMatrix();
 
     glPopMatrix();
 
