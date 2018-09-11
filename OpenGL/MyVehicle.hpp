@@ -10,6 +10,8 @@ public:
     myVehicle();
 
     void draw();
+
+    double angle = 0;
 };
 #endif
 

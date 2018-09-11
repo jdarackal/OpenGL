@@ -29,7 +29,6 @@ void myVehicle::draw() {
     triPrism top(0, 3.5, 0, 0, 1, 0.707106, 45, 4);
     top.draw();
 
-
     setColor(0, 0, 1);
     setColorInGL();
 
@@ -37,9 +36,14 @@ void myVehicle::draw() {
 
     glPushMatrix();
 
-    glTranslated(1.55, 0, 1.25);
+    glTranslated(1.55, 0, 1.25);        // position
+    glRotated(90 - steering, 0, 1, 0);  // steering
 
-    cylinder frontLeft(0, 0, 0, 90 + steering, 0.75, 0.1);
+    glTranslated(0, 0.75, 0);           //
+    glRotated(angle, 0, 0, 1);          // rotation
+    glTranslated(0, -0.75, 0);          //
+
+    cylinder frontLeft(0, 0, 0, 0, 0.75, 0.1);
     frontLeft.draw();
 
     glPopMatrix();
@@ -48,9 +52,14 @@ void myVehicle::draw() {
 
     glPushMatrix();
 
-    glTranslated(-1.55, 0, 1.25);
+    glTranslated(-1.55, 0, 1.25);       // position
+    glRotated(90 - steering, 0, 1, 0);  // steering
 
-    cylinder frontRight(0, 0, 0, 90 + steering, 0.75, 0.1);
+    glTranslated(0, 0.75, 0);           //
+    glRotated(angle, 0, 0, 1);          // rotation
+    glTranslated(0, -0.75, 0);          //
+
+    cylinder frontRight(0, 0, 0, 0, 0.75, 0.1);
     frontRight.draw();
 
     glPopMatrix();
@@ -59,9 +68,14 @@ void myVehicle::draw() {
 
     glPushMatrix();
 
-    glTranslated(1.55, 0, -1.25);
+    glTranslated(1.55, 0, -1.25);       // position
+    glRotated(90, 0, 1, 0);
 
-    cylinder backLeft(0, 0, 0, 90, 0.75, 0.1);
+    glTranslated(0, 0.75, 0);           //
+    glRotated(angle, 0, 0, 1);          // rotation
+    glTranslated(0, -0.75, 0);          //
+
+    cylinder backLeft(0, 0, 0, 0, 0.75, 0.1);
     backLeft.draw();
 
     glPopMatrix();
@@ -70,9 +84,14 @@ void myVehicle::draw() {
 
     glPushMatrix();
 
-    glTranslated(-1.55, 0, -1.25);
+    glTranslated(-1.55, 0, -1.25);      // position
+    glRotated(90, 0, 1, 0);
 
-    cylinder backRight(0, 0, 0, 90, 0.75, 0.1);
+    glTranslated(0, 0.75, 0);           //
+    glRotated(angle, 0, 0, 1);          // rotation
+    glTranslated(0, -0.75, 0);          //
+
+    cylinder backRight(0, 0, 0, 0, 0.75, 0.1);
     backRight.draw();
 
     glPopMatrix();
@@ -81,4 +100,5 @@ void myVehicle::draw() {
 
     glPopMatrix();
 
+    angle += speed / 0.75;
 }

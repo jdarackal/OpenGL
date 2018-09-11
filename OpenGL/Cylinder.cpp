@@ -24,12 +24,12 @@ void cylinder::draw() {
 
     glTranslated(0, radius, -height / 2);
 
-    gluDisk(disk1, 0, radius, 200, 1);
-    gluCylinder(cylinder, radius, radius, height, 200, 1);
+    gluDisk(disk1, 0, radius, 4, 1);
+    gluCylinder(cylinder, radius, radius, height, 4, 1);
 
     glTranslated(0, 0, height);
 
-    gluDisk(disk2, 0, radius, 200, 1);
+    gluDisk(disk2, 0, radius, 4, 1);
 
     glPopMatrix();
 
