@@ -59,12 +59,24 @@ void myVehicle::setCyl(double x_, double y_, double z_, double rotation_, double
 
 }
 
+void myVehicle::setRolling(bool isRolling_) {
+
+    isRolling = isRolling_;
+
+}
+
+void myVehicle::setSteering(bool isSteering_) {
+
+    isSteering = isSteering_;
+
+}
+
 void myVehicle::draw() {
 
-    setRect(0, 1, 0, 0, 3, 1.5, 4);
-    setTrap(0, 2.5, 0, 0, 3, 1, 1, 4, 1);
-    setTri(0, 3.5, 0, 0, 1, 0.707106, 45, 4);
-    setCyl(1.55, 0, 1.25, 90, 0.75, 0.1);
+    //setRect(0, 1, 0, 0, 3, 1.5, 4);
+    //setTrap(0, 2.5, 0, 0, 3, 1, 1, 4, 1);
+    //setTri(0, 3.5, 0, 0, 1, 0.707106, 45, 4);
+    //setCyl(1.55, 0, 1.25, 90, 0.75, 0.1);
 
     glPushMatrix();
     glRotated(-90, 0, 1, 0);
@@ -92,7 +104,7 @@ void myVehicle::draw() {
     glPushMatrix();
 
     glTranslated(cyl_x, cyl_y, cyl_z);              // position
-    glRotated(cyl_rotation - steering, 0, 1, 0);    // steering
+    glRotated(cyl_rotation - (isSteering * steering), 0, 1, 0);    // steering
 
     glTranslated(0, cyl_radius, 0);         //
     glRotated(angle, 0, 0, 1);              // rotation
@@ -108,7 +120,7 @@ void myVehicle::draw() {
     glPushMatrix();
 
     glTranslated(-cyl_x, cyl_y, cyl_z);             // position
-    glRotated(cyl_rotation - steering, 0, 1, 0);    // steering
+    glRotated(cyl_rotation - (isSteering * steering), 0, 1, 0);    // steering
 
     glTranslated(0, cyl_radius, 0);     //
     glRotated(angle, 0, 0, 1);          // rotation
@@ -155,5 +167,5 @@ void myVehicle::draw() {
 
     glPopMatrix();
 
-    angle += speed / 0.75;
+    angle += isRolling * speed / 0.75;
 }

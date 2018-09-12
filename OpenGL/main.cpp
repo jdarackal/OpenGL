@@ -109,11 +109,16 @@ int main(int argc, char ** argv) {
 
 	// -------------------------------------------------------------------------
 	// Please uncomment the following line of code and replace 'MyVehicle'
-	//   with the name of the class you want to show as the current 
-	//   custom vehicle.
+	// with the name of the class you want to show as the current 
+	// custom vehicle.
 	// -------------------------------------------------------------------------
 
 	vehicle = new myVehicle();
+
+    vehicle->setRect(0, 1, 0, 0, 3, 1.5, 4);
+    vehicle->setTrap(0, 2.5, 0, 0, 3, 1, 1, 4, 1);
+    vehicle->setTri(0, 3.5, 0, 0, 1, 0.707106, 45, 4);
+    vehicle->setCyl(1.55, 0, 1.25, 90, 0.75, 0.1);
 
 	// add test obstacles
 	ObstacleManager::get()->addObstacle(Obstacle(10,10, 1));
@@ -376,6 +381,23 @@ void idle() {
 								//
 								// more student code goes here
 								//
+
+                                for (int count = 0; count < 4; count++) {
+
+                                    switch(vm.shapes[count].type) {
+
+                                        case RECTANGULAR_PRISM: otherVehicles[vm.remoteID]->setRect(vm.shapes[i].xyz[0], vm.shapes[i].xyz[1], vm.shapes[i].xyz[2], vm.shapes[i].rotation, vm.shapes[i].params.rect.xlen, vm.shapes[i].params.rect.ylen, vm.shapes[i].params.rect.zlen);
+
+                                        case TRIANGULAR_PRISM: otherVehicles[vm.remoteID]->setTri(vm.shapes[i].xyz[0], vm.shapes[i].xyz[1], vm.shapes[i].xyz[2], vm.shapes[i].rotation, vm.shapes[i].params.tri.alen, vm.shapes[i].params.tri.blen, vm.shapes[i].params.tri.angle, vm.shapes[i].params.tri.depth);
+
+                                        case TRAPEZOIDAL_PRISM: otherVehicles[vm.remoteID]->setTrap(vm.shapes[i].xyz[0], vm.shapes[i].xyz[1], vm.shapes[i].xyz[2], vm.shapes[i].rotation, vm.shapes[i].params.trap.alen, vm.shapes[i].params.trap.blen, vm.shapes[i].params.trap.height, vm.shapes[i].params.trap.depth, vm.shapes[i].params.trap.aoff);
+
+                                        case CYLINDER: otherVehicles[vm.remoteID]->setCyl(vm.shapes[i].xyz[0], vm.shapes[i].xyz[1], vm.shapes[i].xyz[2], vm.shapes[i].rotation, vm.shapes[i].params.cyl.radius, vm.shapes[i].params.cyl.depth);
+                                    }
+                                }
+
+                                otherVehicles[vm.remoteID]->setRolling(vm.shapes[i].params.cyl.isRolling);
+                                otherVehicles[vm.remoteID]->setSteering(vm.shapes[i].params.cyl.isSteering);
 							}
 							break;
 						}

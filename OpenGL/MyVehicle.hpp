@@ -20,8 +20,14 @@ public:
     void setTrap(double x_, double y_, double z_, double rotation_, double lengthA_, double lengthB_, double height_, double depth_, double offset_);
     void setCyl(double x_, double y_, double z_, double rotation_, double radius_, double height_);
 
-    void draw();
+    void setRolling(bool isRolling_);
+    void setSteering(bool isSteering_);
 
+    void draw();    
+
+protected:
+    double angle = 0;
+    
     double rect_x;
     double rect_y;
     double rect_z;
@@ -56,9 +62,9 @@ public:
     double cyl_radius;
     double cyl_height;
 
-protected:
-    double angle = 0;
-    
+    bool isRolling;
+    bool isSteering;
+
 };
 #endif
 
