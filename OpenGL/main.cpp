@@ -115,7 +115,6 @@ int main(int argc, char ** argv) {
 
 	vehicle = new myVehicle();
 
-
 	// add test obstacles
 	ObstacleManager::get()->addObstacle(Obstacle(10,10, 1));
 	ObstacleManager::get()->addObstacle(Obstacle(10,-10, 1));
