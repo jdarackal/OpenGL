@@ -7,16 +7,15 @@
 class triPrism : public Shape {
 
 public:
-    triPrism();
-    triPrism(double x_, double y_, double z_);
-    triPrism(double x_, double y_, double z_, double rotation_, double lengthA_, double lengthB_, double theta_, double depth_);
+    triPrism(float xyz[3]);
+    triPrism(float xyz[3], float rgb[3], double rotation_, double alen_, double blen_, double angle_, double depth_);
 
     void draw();
 
 protected:
-    double lengthA;
-    double lengthB;
-    double theta;
+    double alen;
+    double blen;
+    double angle;
     double depth;
 
 };

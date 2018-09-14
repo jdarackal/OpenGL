@@ -7,18 +7,17 @@
 class trapPrism : public Shape {
 
 public:
-    trapPrism();
-    trapPrism(double x_, double y_, double z_);
-    trapPrism(double x_, double y_, double z_, double rotation_, double lengthA_, double lengthB_, double height_, double depth_, double offset_);
+    trapPrism(float xyz[3]);
+    trapPrism(float xyz[3], float rgb[3], double rotation_, double alen_, double blen_, double height_, double depth_, double aoff_);
 
     void draw();
 
 protected:
-    double lengthA;
-    double lengthB;
+    double alen;
+    double blen;
     double height;
     double depth;
-    double offset;
+    double aoff;
 
 };
 #endif

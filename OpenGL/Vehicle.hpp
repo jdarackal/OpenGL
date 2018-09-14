@@ -19,14 +19,6 @@ public:
 
 	virtual void draw() = 0;
 
-    virtual void setRect(double x_, double y_, double z_, double rotation_, double length_, double width_, double depth_) = 0;
-    virtual void setTri(double x_, double y_, double z_, double rotation_, double lengthA_, double lengthB_, double theta_, double depth_) = 0;
-    virtual void setTrap(double x_, double y_, double z_, double rotation_, double lengthA_, double lengthB_, double height_, double depth_, double offset_) = 0;
-    virtual void setCyl(double x_, double y_, double z_, double rotation_, double radius_, double height_) = 0;
-
-    virtual void setRolling(bool isRolling_) = 0;
-    virtual void setSteering(bool isSteering_) = 0;
-
 	static const int MAX_FORWARD_SPEED_MPS = 10;
 	static const int MAX_BACKWARD_SPEED_MPS = -4;
 	static const int MAX_LEFT_STEERING_DEGS = 15;

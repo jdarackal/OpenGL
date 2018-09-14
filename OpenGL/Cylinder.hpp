@@ -7,15 +7,22 @@
 class cylinder : public Shape {
 
 public:
-    cylinder();
-    cylinder(double x_, double y_, double z_);
-    cylinder(double x_, double y_, double z_, double rotation_, double radius_, double height_);
+    cylinder(float xyz[3]);
+    cylinder(float xyz[3], float rgb[3], double rotation_, double radius_, double depth_, double speed_, double steering_, bool isRolling, bool isSteering);
 
     void draw();
 
+    double getRadius() {
+        return radius;
+    }
+
 protected:
     double radius;
-    double height;
+    double depth;
+    double speed;
+    double steering;
+    bool isRolling;
+    bool isSteering;
 };
 
 #endif

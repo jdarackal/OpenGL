@@ -7,16 +7,15 @@
 class rectPrism : public Shape {
 
 public:
-    rectPrism();
-    rectPrism(double x_, double y_, double z_);
-    rectPrism(double x_, double y_, double z_, double rotation_, double length_, double width_, double depth_);
+    rectPrism(float xyz[3]);
+    rectPrism(float xyz[3], float rgb[3], double rotation_, double xlen_, double ylen_, double zlen_);
 
     void draw();
 
 protected:
-    double length;
-    double width;
-    double depth;
+    double xlen;
+    double ylen;
+    double zlen;
 
 };
 #endif

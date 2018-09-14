@@ -2,14 +2,13 @@
 #include <GL/glut.h>
 #include "RectPrism.hpp"
 
-rectPrism::rectPrism():Shape() {}
+rectPrism::rectPrism(float xyz[3]) : Shape(xyz[0], xyz[1], xyz[2]) {}
 
-rectPrism::rectPrism(double x_, double y_, double z_) : Shape(x_, y_, z_) {}
-
-rectPrism::rectPrism(double x_, double y_, double z_, double rotation_, double length_, double width_, double depth_) : Shape(x_, y_, z_, rotation_) {
-    length = length_;
-    width = width_;
-    depth = depth_;
+rectPrism::rectPrism(float xyz[3], float rgb[3], double rotation_, double xlen_, double ylen_, double zlen_) : Shape(xyz[0], xyz[1], xyz[2], rotation_) {
+    xlen = xlen_;
+    ylen = ylen_;
+    zlen = zlen_;
+    setColor(rgb[0], rgb[1], rgb[2]);
 }
 
 void rectPrism::draw() {
@@ -17,36 +16,37 @@ void rectPrism::draw() {
     glPushMatrix();
 
     positionInGL();
+    setColorInGL();
 
     glBegin(GL_QUAD_STRIP);
 
-    glVertex3d(-length / 2, 0, -depth / 2);
-    glVertex3d(length / 2, 0, -depth / 2);
-    glVertex3d(-length / 2, 0, depth / 2);
-    glVertex3d(length / 2, 0, depth / 2);
+    glVertex3d(-xlen / 2, 0, -zlen / 2);
+    glVertex3d(xlen / 2, 0, -zlen / 2);
+    glVertex3d(-xlen / 2, 0, zlen / 2);
+    glVertex3d(xlen / 2, 0, zlen / 2);
 
-    glVertex3d(-length / 2, width, depth / 2);
-    glVertex3d(length / 2, width, depth / 2);
+    glVertex3d(-xlen / 2, ylen, zlen / 2);
+    glVertex3d(xlen / 2, ylen, zlen / 2);
 
-    glVertex3d(-length / 2, width, -depth / 2);
-    glVertex3d(length / 2, width, -depth / 2);
+    glVertex3d(-xlen / 2, ylen, -zlen / 2);
+    glVertex3d(xlen / 2, ylen, -zlen / 2);
 
-    glVertex3d(-length / 2, 0, -depth / 2);
-    glVertex3d(length / 2, 0, -depth / 2);
+    glVertex3d(-xlen / 2, 0, -zlen / 2);
+    glVertex3d(xlen / 2, 0, -zlen / 2);
 
     glEnd();
 
     glBegin(GL_QUADS);
 
-    glVertex3d(length / 2, 0, -depth / 2);
-    glVertex3d(length / 2, 0, depth / 2);
-    glVertex3d(length / 2, width, depth / 2);
-    glVertex3d(length / 2, width, -depth / 2);
+    glVertex3d(xlen / 2, 0, -zlen / 2);
+    glVertex3d(xlen / 2, 0, zlen / 2);
+    glVertex3d(xlen / 2, ylen, zlen / 2);
+    glVertex3d(xlen / 2, ylen, -zlen / 2);
 
-    glVertex3d(-length / 2, 0, -depth / 2);
-    glVertex3d(-length / 2, 0, depth / 2);
-    glVertex3d(-length / 2, width, depth / 2);
-    glVertex3d(-length / 2, width, -depth / 2);
+    glVertex3d(-xlen / 2, 0, -zlen / 2);
+    glVertex3d(-xlen / 2, 0, zlen / 2);
+    glVertex3d(-xlen / 2, ylen, zlen / 2);
+    glVertex3d(-xlen / 2, ylen, -zlen / 2);
 
     glEnd();
 

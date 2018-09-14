@@ -78,6 +78,10 @@ std::map<int, Vehicle *> otherVehicles;
 
 int frameCounter = 0;
 
+// My vehicle model
+VehicleModel myVM;
+
+
 //int _tmain(int argc, _TCHAR* argv[]) {
 int main(int argc, char ** argv) {
 
@@ -113,12 +117,11 @@ int main(int argc, char ** argv) {
 	// custom vehicle.
 	// -------------------------------------------------------------------------
 
-	vehicle = new myVehicle();
+    myVM.remoteID = 0;
+    ShapeInit base1 = {RECTANGULAR_PRISM, {4, 1, 3}, {0, 1, 0}, 0, {0, 0, 1}};
+    myVM.shapes.push_back(base1);
 
-    vehicle->setRect(0, 1, 0, 0, 3, 1.5, 4);
-    vehicle->setTrap(0, 2.5, 0, 0, 3, 1, 1, 4, 1);
-    vehicle->setTri(0, 3.5, 0, 0, 1, 0.707106, 45, 4);
-    vehicle->setCyl(1.55, 0, 1.25, 90, 0.75, 0.1);
+    vehicle = new myVehicle(myVM);
 
 	// add test obstacles
 	ObstacleManager::get()->addObstacle(Obstacle(10,10, 1));
@@ -163,27 +166,6 @@ void drawGoals()
 	}
 }
 
-void function() {
-    rectPrism rectangle(20, 0, 20, 0, 5, 5, 10);
-    rectangle.setColor(1, 0, 0);
-    rectangle.draw();
-
-    triPrism triangle(-20, 0, 20, 45, 5, 5, 60, 10);
-    triangle.setColor(0, 1, 0);
-    triangle.draw();
-
-    trapPrism trap(-20, 0, -20, 0, 10, 5, 5, 5, 2.5);
-    trap.setColor(0, 0, 1);
-    trap.draw();
-
-    cylinder cyl(20, 0, -20, 90, 5, 10);
-    cyl.setColor(1, 1, 1);
-    cyl.draw();
-
-    myVehicle car;
-    car.draw();
-}
-
 void display() {
 	frameCounter++;
 	// -------------------------------------------------------------------------
@@ -225,8 +207,6 @@ void display() {
 
 	// draw HUD
 	HUD::Draw();
-
-    //function();
 
 	glutSwapBuffers();
 };
@@ -342,6 +322,36 @@ void idle() {
 					// student code goes here
 					//
 
+                    ShapeInit base1 = {RECTANGULAR_PRISM, {4, 1.5, 3}, {0, 1, 0}, 0, {0, 0, 1}};
+                    
+                    ShapeInit base2 = {TRAPEZOIDAL_PRISM, {}, {0, 2.5, 0}, 90, {1, 0, 0}};
+                    base2.params.trap = {3, 1, 1, 1, 4};
+
+                    ShapeInit base3 = {TRIANGULAR_PRISM, {}, {0, 3.5, 0}, 90, {0, 1, 0}};
+                    base3.params.tri = {1, 0.707106f, 45, 4};
+
+                    ShapeInit wheel1 = {CYLINDER, {}, {1.25, 0, 1.55}, 0, {1, 1, 1}};
+                    wheel1.params.cyl = {0.75f, 0.1f, true, true};
+
+                    ShapeInit wheel2 = {CYLINDER, {}, {1.25, 0, -1.55}, 0, {1, 1, 1}};
+                    wheel2.params.cyl = {0.75f, 0.1f, true, true};
+
+                    ShapeInit wheel3 = {CYLINDER, {}, {-1.25, 0, 1.55}, 0, {1, 1, 1}};
+                    wheel3.params.cyl = {0.75f, 0.1f, true, false};
+
+                    ShapeInit wheel4 = {CYLINDER, {}, {-1.25, 0, -1.55}, 0, {1, 1, 1}};
+                    wheel4.params.cyl = {0.75f, 0.1f, true, false};
+
+                    vm.shapes.push_back(base1);
+                    vm.shapes.push_back(base2);
+                    vm.shapes.push_back(base3);
+                    vm.shapes.push_back(wheel1);
+                    vm.shapes.push_back(wheel2);
+                    vm.shapes.push_back(wheel3);
+                    vm.shapes.push_back(wheel4);
+
+                    vehicle = new myVehicle(vm);
+
 					RemoteDataManager::Write(GetVehicleModelStr(vm));
 				}
 			}
@@ -376,28 +386,10 @@ void idle() {
 								VehicleModel vm = models[i];
 								
 								// uncomment the line below to create remote vehicles
-								otherVehicles[vm.remoteID] = new myVehicle();
+								otherVehicles[vm.remoteID] = new myVehicle(vm);
 
-								//
-								// more student code goes here
-								//
+								otherVehicles[vm.remoteID]->draw();
 
-                                for (int count = 0; count < 4; count++) {
-
-                                    switch(vm.shapes[count].type) {
-
-                                        case RECTANGULAR_PRISM: otherVehicles[vm.remoteID]->setRect(vm.shapes[i].xyz[0], vm.shapes[i].xyz[1], vm.shapes[i].xyz[2], vm.shapes[i].rotation, vm.shapes[i].params.rect.xlen, vm.shapes[i].params.rect.ylen, vm.shapes[i].params.rect.zlen);
-
-                                        case TRIANGULAR_PRISM: otherVehicles[vm.remoteID]->setTri(vm.shapes[i].xyz[0], vm.shapes[i].xyz[1], vm.shapes[i].xyz[2], vm.shapes[i].rotation, vm.shapes[i].params.tri.alen, vm.shapes[i].params.tri.blen, vm.shapes[i].params.tri.angle, vm.shapes[i].params.tri.depth);
-
-                                        case TRAPEZOIDAL_PRISM: otherVehicles[vm.remoteID]->setTrap(vm.shapes[i].xyz[0], vm.shapes[i].xyz[1], vm.shapes[i].xyz[2], vm.shapes[i].rotation, vm.shapes[i].params.trap.alen, vm.shapes[i].params.trap.blen, vm.shapes[i].params.trap.height, vm.shapes[i].params.trap.depth, vm.shapes[i].params.trap.aoff);
-
-                                        case CYLINDER: otherVehicles[vm.remoteID]->setCyl(vm.shapes[i].xyz[0], vm.shapes[i].xyz[1], vm.shapes[i].xyz[2], vm.shapes[i].rotation, vm.shapes[i].params.cyl.radius, vm.shapes[i].params.cyl.depth);
-                                    }
-                                }
-
-                                otherVehicles[vm.remoteID]->setRolling(vm.shapes[i].params.cyl.isRolling);
-                                otherVehicles[vm.remoteID]->setSteering(vm.shapes[i].params.cyl.isSteering);
 							}
 							break;
 						}
