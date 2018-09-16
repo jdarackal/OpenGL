@@ -24,6 +24,7 @@ protected:
     double roll;
     bool isRolling;
     bool isSteering;
+
 };
 
 #endif

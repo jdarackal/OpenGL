@@ -33,7 +33,6 @@
 
 #include "Shape.hpp"
 #include "Vehicle.hpp"
-#include "Rectangle.hpp"
 #include "RectPrism.hpp"
 #include "TriPrism.hpp"
 #include "TrapPrism.hpp"

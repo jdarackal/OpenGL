@@ -1,5 +1,11 @@
 
+#include <Windows.h>
+#include <GL/glut.h>
 #include "MyVehicle.hpp"
+#include "RectPrism.hpp"
+#include "TriPrism.hpp"
+#include "TrapPrism.hpp"
+#include "Cylinder.hpp"
 
 myVehicle::myVehicle(VehicleModel vm_) : Vehicle() {
 

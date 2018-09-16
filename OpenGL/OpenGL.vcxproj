@@ -96,7 +96,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>%USERPROFILE%\source\repos\OpenGL\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glu32.lib;glut32.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glu32.lib;glut32.lib;opengl32.lib;xinput.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/FORCE %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -167,7 +167,6 @@
     <ClInclude Include="Obstacle.hpp" />
     <ClInclude Include="ObstacleManager.hpp" />
     <ClInclude Include="Quaternion.hpp" />
-    <ClInclude Include="Rectangle.hpp" />
     <ClInclude Include="RectPrism.hpp" />
     <ClInclude Include="RemoteDataManager.hpp" />
     <ClInclude Include="Shape.hpp" />
@@ -191,7 +190,6 @@
     <ClCompile Include="ObstacleManager.cpp" />
     <ClCompile Include="OpenGL.cpp" />
     <ClCompile Include="Quaternion.cpp" />
-    <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="RectPrism.cpp" />
     <ClCompile Include="RemoteDataManager.cpp" />
     <ClCompile Include="Shape.cpp" />
