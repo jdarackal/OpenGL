@@ -20,6 +20,8 @@ public:
     void setTrap(double x_, double y_, double z_, double rotation_, double lengthA_, double lengthB_, double height_, double depth_, double offset_);
     void setCyl(double x_, double y_, double z_, double rotation_, double radius_, double height_);
 
+  
+
     void draw();
 
     double rect_x;

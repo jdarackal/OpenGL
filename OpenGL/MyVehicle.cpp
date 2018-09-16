@@ -6,6 +6,7 @@
 #include "TriPrism.hpp"
 #include "TrapPrism.hpp"
 #include "Cylinder.hpp"
+#include "Vehicle.hpp"
 
 myVehicle::myVehicle() : Vehicle() {}
 
@@ -20,6 +21,9 @@ void myVehicle::setRect(double x_, double y_, double z_, double rotation_, doubl
     rect_depth = depth_; 
 
 }
+
+Vehicle 
+
 
 void myVehicle::setTri(double x_, double y_, double z_, double rotation_, double lengthA_, double lengthB_, double theta_, double depth_) {
 

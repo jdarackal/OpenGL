@@ -78,6 +78,9 @@
     <ClInclude Include="glut.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Wheels.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="OpenGL.cpp">
@@ -141,6 +144,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MyVehicle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Wheels.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

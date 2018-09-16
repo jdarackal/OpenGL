@@ -176,6 +176,7 @@
     <ClInclude Include="TriPrism.hpp" />
     <ClInclude Include="VectorMaths.hpp" />
     <ClInclude Include="Vehicle.hpp" />
+    <ClInclude Include="Wheels.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
@@ -199,6 +200,7 @@
     <ClCompile Include="TriPrism.cpp" />
     <ClCompile Include="VectorMaths.cpp" />
     <ClCompile Include="Vehicle.cpp" />
+    <ClCompile Include="Wheels.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
