@@ -117,10 +117,6 @@ int main(int argc, char ** argv) {
 	// custom vehicle.
 	// -------------------------------------------------------------------------
 
-    myVM.remoteID = 0;
-    ShapeInit base1 = {RECTANGULAR_PRISM, {4, 1, 3}, {0, 1, 0}, 0, {0, 0, 1}};
-    myVM.shapes.push_back(base1);
-
     vehicle = new myVehicle(myVM);
 
 	// add test obstacles
@@ -387,8 +383,6 @@ void idle() {
 								
 								// uncomment the line below to create remote vehicles
 								otherVehicles[vm.remoteID] = new myVehicle(vm);
-
-								otherVehicles[vm.remoteID]->draw();
 
 							}
 							break;

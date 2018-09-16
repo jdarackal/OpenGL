@@ -4,12 +4,13 @@
 
 cylinder::cylinder(float xyz[3]) : Shape(xyz[0], xyz[1], xyz[2]) {}
 
-cylinder::cylinder(float xyz[3], float rgb[3], double rotation_, double radius_, double depth_, double speed_, double steering_, bool isRolling_, bool isSteering_) : Shape(xyz[0], xyz[1], xyz[2], rotation_) {
+cylinder::cylinder(float xyz[3], float rgb[3], double rotation_, double radius_, double depth_, double speed_, double steering_, double roll_, bool isRolling_, bool isSteering_) : Shape(xyz[0], xyz[1], xyz[2], rotation_) {
     radius = radius_;
     depth = depth_;
     setColor(rgb[0], rgb[1], rgb[2]);
     speed = speed_;
     steering = steering_;
+    roll = roll_;
     isRolling = isRolling_;
     isSteering = isSteering_;
 }
@@ -26,13 +27,13 @@ void cylinder::draw() {
     setColorInGL();
 
     if (isSteering) {
-        glRotated(-steering, 0, 1, 0); // steering
+        glRotated(-steering * isSteering, 0, 1, 0);  // steering
     }
 
     if (isRolling) {
-        glTranslated(0, radius, 0);             //
-        glRotated(speed / radius, 0, 0, 1);     // rolling
-        glTranslated(0, -radius, 0);            //
+        glTranslated(0, radius, 0);                 //
+        glRotated(-roll * isRolling, 0, 0, 1);      // rolling
+        glTranslated(0, -radius, 0);                //
     }
 
     glTranslated(0, radius, -depth / 2);
@@ -45,5 +46,4 @@ void cylinder::draw() {
     gluDisk(disk2, 0, radius, 4, 1);
 
     glPopMatrix();
-
 }

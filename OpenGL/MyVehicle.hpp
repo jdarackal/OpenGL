@@ -20,6 +20,8 @@ public:
 
 protected:
     VehicleModel vm;
+    std::vector<double> roll;
+    int c;
 
 };
 #endif

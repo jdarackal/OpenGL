@@ -8,7 +8,7 @@ class cylinder : public Shape {
 
 public:
     cylinder(float xyz[3]);
-    cylinder(float xyz[3], float rgb[3], double rotation_, double radius_, double depth_, double speed_, double steering_, bool isRolling, bool isSteering);
+    cylinder(float xyz[3], float rgb[3], double rotation_, double radius_, double depth_, double speed_, double steering_, double roll_, bool isRolling, bool isSteering);
 
     void draw();
 
@@ -21,6 +21,7 @@ protected:
     double depth;
     double speed;
     double steering;
+    double roll;
     bool isRolling;
     bool isSteering;
 };
