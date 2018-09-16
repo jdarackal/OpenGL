@@ -7,6 +7,8 @@
 #include <map>
 #include <cmath>
 
+#define _USE_MATH_DEFINES
+
 #ifdef __APPLE__
 	#include <OpenGL/gl.h>
 	#include <OpenGL/glu.h>
@@ -26,6 +28,8 @@
 	#include <unistd.h>
 	#include <sys/time.h>
 #endif
+
+#define PI 3.14159265358979323846
 
 
 #include "Camera.hpp"
@@ -567,21 +571,35 @@ void motion(int x, int y) {
 
 void Follow(Vehicle * lead) {
 
-    double distance = sqrt(pow(vehicle->getX() - lead->getX(), 2) + pow(vehicle->getZ() - lead->getZ(), 2));
     double diffX = lead->getX() - vehicle->getX();
     double diffZ = lead->getZ() - vehicle->getZ();
-    double direction = acos(diff);
-    if (distance > 12) {
+    double followDistance = sqrt(pow(diffX, 2) + pow(diffZ, 2));
+    double followAngle = 0;
+
+    if (followDistance > 12) {
         speed = Vehicle::MAX_FORWARD_SPEED_MPS;
-    } else if (distance > 4) {
-        speed = Vehicle::MAX_FORWARD_SPEED_MPS * (distance - 4)/8;
-    } else {
+    } else if (followDistance > 4) {
+        speed = Vehicle::MAX_FORWARD_SPEED_MPS * (followDistance - 4)/8;
+    } else if (followDistance > 0) {
         speed = 0;
+    } else {
+        return;
     }
 
-    if (direction < 180) {
-        steering = Vehicle::MAX_RIGHT_STEERING_DEGS *  direction / 180;
-    } else {
-        steering = Vehicle::MAX_LEFT_STEERING_DEGS * direction / 180;
+    if (diffZ >= 0) {
+        followAngle = acos(diffX / followDistance);
+    } else if (diffZ < 0) {
+        followAngle = 2 * PI - acos(diffX / followDistance);
     }
+    
+    double steerAngle = abs(followAngle - vehicle->getRotation() * PI / 180);
+
+    if (steerAngle < PI) {
+        steering = Vehicle::MAX_RIGHT_STEERING_DEGS * steerAngle / (PI);
+    } else {
+        steering = Vehicle::MAX_LEFT_STEERING_DEGS * (2 * PI - steerAngle) / (PI);
+    }
+
+    cout << "diffX = " << diffX << ",  diffZ = " << diffZ << ", followDistance = " << followDistance << ", followAngle = " << followAngle << ", steerAngle" << steerAngle << endl;
+
 }
