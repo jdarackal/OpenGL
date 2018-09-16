@@ -8,6 +8,7 @@
 class myVehicle : public Vehicle {
 
 public:
+    myVehicle();
     myVehicle(VehicleModel vm_);
 
     void draw();   

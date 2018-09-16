@@ -7,6 +7,8 @@
 #include "TrapPrism.hpp"
 #include "Cylinder.hpp"
 
+myVehicle::myVehicle() {};
+
 myVehicle::myVehicle(VehicleModel vm_) : Vehicle() {
 
     vm = vm_;

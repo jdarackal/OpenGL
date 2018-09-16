@@ -5,6 +5,7 @@
 #include <cstring>
 #include <sstream>
 #include <map>
+#include <cmath>
 
 #ifdef __APPLE__
 	#include <OpenGL/gl.h>
@@ -44,6 +45,9 @@
 #include "HUD.hpp"
 #include "ObstacleManager.hpp"
 
+#include "XBoxController.h"
+#include "XInputWrapper.h"
+
 void display();
 void reshape(int width, int height);
 void idle();
@@ -77,9 +81,11 @@ std::map<int, Vehicle *> otherVehicles;
 
 int frameCounter = 0;
 
-// My vehicle model
-VehicleModel myVM;
+// XBox controller
+XInputWrapper xinput; //create an instantiation of the wrapper
+GamePad::XBoxController controller(&xinput, 0); //create a new xbox controller object, passing in a pointer to the wrapper
 
+void Follow(Vehicle * lead);
 
 //int _tmain(int argc, _TCHAR* argv[]) {
 int main(int argc, char ** argv) {
@@ -91,7 +97,7 @@ int main(int argc, char ** argv) {
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE);
 	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-	glutCreateWindow("MTRN3500 - GL");
+	glutCreateWindow("MTRN2500 - XBox Vehicle");
 
 	Camera::get()->setWindowDimensions(WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -116,7 +122,7 @@ int main(int argc, char ** argv) {
 	// custom vehicle.
 	// -------------------------------------------------------------------------
 
-    vehicle = new myVehicle(myVM);
+    vehicle = new myVehicle;
 
 	// add test obstacles
 	ObstacleManager::get()->addObstacle(Obstacle(10,10, 1));
@@ -289,6 +295,32 @@ void idle() {
 	if (KeyManager::get()->isSpecialKeyPressed(GLUT_KEY_DOWN)) {
 		speed = Vehicle::MAX_BACKWARD_SPEED_MPS;
 	}
+
+    if (KeyManager::get()->isAsciiKeyPressed('l')) {
+        Follow(otherVehicles[1]);
+    }
+
+    controller.SetDeadzone(32767/10);
+
+    if (controller.LeftThumbLocation().GetX() != 0) {
+        steering = Vehicle::MAX_LEFT_STEERING_DEGS * controller.LeftThumbLocation().GetX() / 32767;
+    }
+
+    if (controller.RightTriggerLocation() != 0) {
+        speed = controller.RightTriggerLocation() / 25.5;
+    }
+
+    if (controller.LeftTriggerLocation() != 0) {
+        speed = -controller.LeftTriggerLocation() / 25.5;
+    }
+
+    if (controller.PressedA()) {
+        Camera::get()->setPursuitMode(1);
+    }
+
+    if (controller.PressedB()) {
+        Camera::get()->setPursuitMode(0);
+    }
 
 	// attempt to do data communications every 4 frames if we've created a local vehicle
 	if(frameCounter % 4 == 0 && vehicle != NULL) {
@@ -476,10 +508,10 @@ void idle() {
 void keydown(unsigned char key, int x, int y) {
 
 	// keys that will be held down for extended periods of time will be handled
-	//   in the idle function
+	// in the idle function
 	KeyManager::get()->asciiKeyPressed(key);
 
-	// keys that react ocne when pressed rather than need to be held down
+	// keys that react once when pressed rather than need to be held down
 	//   can be handles normally, like this...
 	switch (key) {
 	case 27: // ESC key
@@ -491,7 +523,7 @@ void keydown(unsigned char key, int x, int y) {
 	case 'p':
 		Camera::get()->togglePursuitMode();
 		break;
-	}
+	}        
 
 };
 
@@ -500,7 +532,7 @@ void keyup(unsigned char key, int x, int y) {
 };
 
 void special_keydown(int keycode, int x, int y) {
-
+        
 	KeyManager::get()->specialKeyPressed(keycode);
 
 };
@@ -531,6 +563,25 @@ void motion(int x, int y) {
 
 	prev_mouse_x = x;
 	prev_mouse_y = y;
-};
+}
 
+void Follow(Vehicle * lead) {
 
+    double distance = sqrt(pow(vehicle->getX() - lead->getX(), 2) + pow(vehicle->getZ() - lead->getZ(), 2));
+    double diffX = lead->getX() - vehicle->getX();
+    double diffZ = lead->getZ() - vehicle->getZ();
+    double direction = acos(diff);
+    if (distance > 12) {
+        speed = Vehicle::MAX_FORWARD_SPEED_MPS;
+    } else if (distance > 4) {
+        speed = Vehicle::MAX_FORWARD_SPEED_MPS * (distance - 4)/8;
+    } else {
+        speed = 0;
+    }
+
+    if (direction < 180) {
+        steering = Vehicle::MAX_RIGHT_STEERING_DEGS *  direction / 180;
+    } else {
+        steering = Vehicle::MAX_LEFT_STEERING_DEGS * direction / 180;
+    }
+}

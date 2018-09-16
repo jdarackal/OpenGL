@@ -186,6 +186,7 @@ namespace scos {
     
 	void togglePursuitMode();
 	bool isPursuitMode() { return manualPursuit; }
+    void setPursuitMode(bool follow) { manualPursuit = follow; }
   };
 
 };
