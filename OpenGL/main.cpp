@@ -306,22 +306,27 @@ void idle() {
 
     controller.SetDeadzone(32767/10);
 
+    // Steer with left joystick
     if (controller.LeftThumbLocation().GetX() != 0) {
         steering = Vehicle::MAX_LEFT_STEERING_DEGS * controller.LeftThumbLocation().GetX() / 32767;
     }
 
+    // move forward with right trigger
     if (controller.RightTriggerLocation() != 0) {
         speed = controller.RightTriggerLocation() / 25.5;
     }
 
+    // move backward with left trigger
     if (controller.LeftTriggerLocation() != 0) {
         speed = -controller.LeftTriggerLocation() / 25.5;
     }
 
+    // activate pursuit mode with A
     if (controller.PressedA()) {
         Camera::get()->setPursuitMode(1);
     }
 
+    // deactivate pursuit mode with B
     if (controller.PressedB()) {
         Camera::get()->setPursuitMode(0);
     }
@@ -595,9 +600,9 @@ void Follow(Vehicle * lead) {
     double steerAngle = abs(followAngle - vehicle->getRotation() * PI / 180);
 
     if (steerAngle < PI) {
-        steering = Vehicle::MAX_RIGHT_STEERING_DEGS * steerAngle / (PI);
+        steering = Vehicle::MAX_LEFT_STEERING_DEGS * steerAngle / (PI);
     } else {
-        steering = Vehicle::MAX_LEFT_STEERING_DEGS * (2 * PI - steerAngle) / (PI);
+        steering = Vehicle::MAX_RIGHT_STEERING_DEGS * (2 * PI - steerAngle) / (PI);
     }
 
     cout << "diffX = " << diffX << ",  diffZ = " << diffZ << ", followDistance = " << followDistance << ", followAngle = " << followAngle << ", steerAngle" << steerAngle << endl;
