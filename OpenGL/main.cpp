@@ -317,17 +317,23 @@ void idle() {
         speed = -controller.LeftTriggerLocation() / 25.5;
     }
 
-    // follow vehicle by pressing L on keyboard or RB on XBox controller
+    // turn pursuit mode on with A button and off with B button
+
+    if (controller.PressedA()) {
+        Camera::get()->setPursuitMode(1);
+    } else if (controller.PressedB()) {
+        Camera::get()->setPursuitMode(0);
+    }
+
+    // follow vehicle by pressing L on keyboard or X button on XBox controller
 
     if (KeyManager::get()->isAsciiKeyPressed('l')) {
         Follow(otherVehicles[1]);
     }
 
-    if (controller.PressedRightShoulder()) {
+    if (controller.PressedX()) {
         Follow(otherVehicles[1]);
         Camera::get()->setPursuitMode(1);
-    } else {
-        Camera::get()->setPursuitMode(0);
     }
 
 	// attempt to do data communications every 4 frames if we've created a local vehicle
