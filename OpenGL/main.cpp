@@ -309,12 +309,12 @@ void idle() {
 
     // move forward with right trigger
     if (controller.RightTriggerLocation() != 0) {
-        speed = controller.RightTriggerLocation() / 25.5;
+        speed = controller.RightTriggerLocation() / (255 / Vehicle::MAX_FORWARD_SPEED_MPS);
     }
 
     // move backward with left trigger
     if (controller.LeftTriggerLocation() != 0) {
-        speed = -controller.LeftTriggerLocation() / 25.5;
+        speed = controller.LeftTriggerLocation() / (255 / Vehicle::MAX_BACKWARD_SPEED_MPS);
     }
 
     // turn pursuit mode on with A button and off with B button
