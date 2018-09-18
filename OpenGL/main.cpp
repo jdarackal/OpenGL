@@ -300,10 +300,6 @@ void idle() {
 		speed = Vehicle::MAX_BACKWARD_SPEED_MPS;
 	}
 
-    if (KeyManager::get()->isAsciiKeyPressed('l')) {
-        Follow(otherVehicles[1]);
-    }
-
     controller.SetDeadzone(32767/10);
 
     // Steer with left joystick
@@ -321,13 +317,16 @@ void idle() {
         speed = -controller.LeftTriggerLocation() / 25.5;
     }
 
-    // activate pursuit mode with A
-    if (controller.PressedA()) {
-        Camera::get()->setPursuitMode(1);
+    // follow vehicle by pressing L on keyboard or RB on XBox controller
+
+    if (KeyManager::get()->isAsciiKeyPressed('l')) {
+        Follow(otherVehicles[1]);
     }
 
-    // deactivate pursuit mode with B
-    if (controller.PressedB()) {
+    if (controller.PressedRightShoulder()) {
+        Follow(otherVehicles[1]);
+        Camera::get()->setPursuitMode(1);
+    } else {
         Camera::get()->setPursuitMode(0);
     }
 
@@ -581,30 +580,41 @@ void Follow(Vehicle * lead) {
     double followDistance = sqrt(pow(diffX, 2) + pow(diffZ, 2));
     double followAngle = 0;
 
-    if (followDistance > 12) {
+    // setting speed
+
+    if (followDistance > 8) {
         speed = Vehicle::MAX_FORWARD_SPEED_MPS;
-    } else if (followDistance > 4) {
-        speed = Vehicle::MAX_FORWARD_SPEED_MPS * (followDistance - 4)/8;
     } else if (followDistance > 0) {
         speed = 0;
     } else {
         return;
     }
 
-    if (diffZ >= 0) {
+    // angle between the cars
+
+    if (diffZ > 0) {
         followAngle = acos(diffX / followDistance);
     } else if (diffZ < 0) {
         followAngle = 2 * PI - acos(diffX / followDistance);
     }
     
-    double steerAngle = abs(followAngle - vehicle->getRotation() * PI / 180);
+    // difference between necessary direction and current direction
 
-    if (steerAngle < PI) {
-        steering = Vehicle::MAX_LEFT_STEERING_DEGS * steerAngle / (PI);
-    } else {
-        steering = Vehicle::MAX_RIGHT_STEERING_DEGS * (2 * PI - steerAngle) / (PI);
+    double steerAngle = followAngle - vehicle->getRotation() * PI / 180;
+
+    // setting steering level
+
+    if (steerAngle > 0 && steerAngle <= PI) {
+        steering = Vehicle::MAX_LEFT_STEERING_DEGS * steerAngle / PI;
+    } else if (steerAngle > 0 && steerAngle > PI) {
+        steering = Vehicle::MAX_RIGHT_STEERING_DEGS * (2 * PI - steerAngle) / PI;
+    } else if (steerAngle < 0 && steerAngle > -PI) {
+        steering = Vehicle::MAX_RIGHT_STEERING_DEGS * abs(steerAngle) / PI;
+    } else if (steerAngle < 0 && steerAngle < -PI) {
+        steering = Vehicle::MAX_LEFT_STEERING_DEGS * (2 * PI - abs(steerAngle)) / PI;
     }
 
-    cout << "diffX = " << diffX << ",  diffZ = " << diffZ << ", followDistance = " << followDistance << ", followAngle = " << followAngle << ", steerAngle" << steerAngle << endl;
+    // for debugging
+    cout << "diffX = " << diffX << ",  diffZ = " << diffZ << ", followDistance = " << followDistance << ", followAngle = " << followAngle * 180 / PI << ", heading = " << vehicle->getRotation() << ", steerAngle = "<< steerAngle * 180 / PI << ", direction = " << (steerAngle < PI ? "right" : "left") << ", steering =" << steering << endl;
 
 }
