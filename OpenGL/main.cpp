@@ -615,6 +615,6 @@ void Follow(Vehicle * lead) {
     }
 
     // for debugging
-    cout << "diffX = " << diffX << ",  diffZ = " << diffZ << ", followDistance = " << followDistance << ", followAngle = " << followAngle * 180 / PI << ", heading = " << vehicle->getRotation() << ", steerAngle = "<< steerAngle * 180 / PI << ", direction = " << (steerAngle < PI ? "right" : "left") << ", steering =" << steering << endl;
+    // cout << "diffX = " << diffX << ",  diffZ = " << diffZ << ", followDistance = " << followDistance << ", followAngle = " << followAngle * 180 / PI << ", heading = " << vehicle->getRotation() << ", steerAngle = "<< steerAngle * 180 / PI << ", direction = " << (steerAngle < PI ? "right" : "left") << ", steering =" << steering << endl;
 
 }
