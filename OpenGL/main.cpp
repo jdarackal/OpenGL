@@ -7,8 +7,6 @@
 #include <map>
 #include <cmath>
 
-#define _USE_MATH_DEFINES
-
 #ifdef __APPLE__
 	#include <OpenGL/gl.h>
 	#include <OpenGL/glu.h>
